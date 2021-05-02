@@ -18,12 +18,33 @@ namespace Demo6
         }
         int n;
         PictureBox[,] P;
-        string color = "r", k = "", B1 = "", B2 = "";
+        string color = "v", k = "", k2 = "", B1 = "", B2 = "";
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.linkLabel1.LinkVisited = true;
+            System.Diagnostics.Process.Start("https://www.youtube.com/watch?v=titCc4zkhPo");
+        }
+
+        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.linkLabel1.LinkVisited = true;
+            System.Diagnostics.Process.Start("https://www.vint.ee/et-ee/games/#kabe");
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            this.linkLabel1.LinkVisited = true;
+            System.Diagnostics.Process.Start("http://kabeliit.ee/kohtunikekogu/koodeks/EKL64_2016.pdf");
+        }
+
+        int valge = 0, must = 0;
+
         private void Form1_Load(object sender, EventArgs e)
         {
             n = 8;
             P = new PictureBox[n, n];
-            int left = 2, top = 2;
+            int left = 2, top = 2, kontroll = 1;
             Color[] colors = new Color[] { Color.Wheat, Color.Sienna };
             for (int i = 0; i < n; i++)
             {
@@ -45,16 +66,16 @@ namespace Demo6
                     P[i, j].Location = new Point(left, top);
                     P[i, j].Size = new Size(60, 60);
                     left += 60;
-                    P[i, j].Name = i + "" + j;
+                    P[i, j].Name = i + " " + j;
                     if (i < 3 && P[i, j].BackColor == Color.Sienna)
                     {
-                        P[i, j].Image = Properties.Resources.r;
-                        P[i, j].Name += "r";
+                        P[i, j].Image = Properties.Resources.m;
+                        P[i, j].Name += " m";
                     }
                     else if (i > 4 && P[i, j].BackColor == Color.Sienna)
                     {
-                        P[i, j].Image = Properties.Resources.g;
-                        P[i, j].Name += "g";
+                        P[i, j].Image = Properties.Resources.v;
+                        P[i, j].Name += " v";
                     }
                     P[i, j].SizeMode = PictureBoxSizeMode.CenterImage;
                     P[i, j].MouseHover += (sender2, e2) =>
@@ -76,33 +97,119 @@ namespace Demo6
                         if (p.Image != null)
                         {
                             int c = -1, x, y;
-                            if (p.Name.Split(' ')[2] == color) //ei tööta
+                            F();
+                            if (p.Name.Split(' ')[2] == "b") 
+                            {
+                                if (color == "v")
+                                {
+                                    color = "m";
+                                }
+                                else
+                                {
+                                    color = "v";
+                                }
+                                x = Convert.ToInt32(k.Split(' ')[0]);
+                                y = Convert.ToInt32(k.Split(' ')[1]);
+                                B1 = "";
+                                B2 = "";
+                                if(k.Split(' ')[2] == "m")
+                                {
+                                    p.Image = Properties.Resources.m;
+                                    p.Name = p.Name.Replace("b", "m");
+                                }
+                                else if (k.Split(' ')[2] == "v")
+                                {
+                                    p.Image = Properties.Resources.v;
+                                    p.Name = p.Name.Replace("b", "v");
+                                }
+                                P[x, y].Image = null;
+                                if(k2 != ""&& kontroll == 0 )
+                                {
+                                    x = Convert.ToInt32(k2.Split(' ')[0]);
+                                    y = Convert.ToInt32(k2.Split(' ')[1]);
+                                    P[x, y].Image = null;
+                                    if(k2.Split(' ')[2] == "m")
+                                    {
+                                        must++;
+                                    }
+                                    else
+                                    {
+                                        valge++;
+                                    }
+                                    label17.Text = valge + "";
+                                    label18.Text = must + "";
+                                    k2 = "";
+                                    kontroll = 1;
+                                }
+                            }
+                            else if (p.Name.Split(' ')[2] == color)
                             {
                                 x = Convert.ToInt32(p.Name.Split(' ')[0]);
                                 y = Convert.ToInt32(p.Name.Split(' ')[1]);
                                 k = p.Name;
-                                if (p.Name.Split(' ')[2] == "r")
+                                if (p.Name.Split(' ')[2] == "m")
                                 {
-                                    c = -1;
+                                    c = 1;
                                 }
-                                    if (P[x + c, y + 1].Image == null)
+                                try
+                                {
+                                   if (P[x + c, y + 1].Image != null && P[x + c, y + 1].Name.Split(' ')[2] != p.Name.Split(' ')[2] && P[x + (c * 2), y + 2].Image == null)
+                                    {
+                                        P[x + (c * 2), y + 2].Image = Properties.Resources.b;
+                                        P[x + (c * 2), y + 2].Name = (x + (c * 2)) + " " + (y + 2) + " b";
+                                        B1 = (x + (c * 2)) + " " + (y + 2);
+                                        k2 = (x + c) + " " + (y + 1) + " " + P[x + c, y + 1].Name.Split(' ')[2];
+                                        kontroll = 0;
+                                    }
+                                    else if (kontroll == 1 && P[x + c, y + 1].Image == null)
                                     {
                                         P[x + c, y + 1].Image = Properties.Resources.b;
-                                        P[x + c, y + 1].Name = (x + c) + "" + (y + 1) + "b";
-                                        B1 = (x + c) + "" + (y + 1);
+                                        P[x + c, y + 1].Name = (x + c) + " " + (y + 1) + " b";
+                                        B1 = (x + c) + " " + (y + 1);
                                     }
-                                    if (P[x + c, y - 1].Image == null)
+                                }
+                                catch { }
+                                try
+                                {
+                                    if (P[x + c, y - 1].Image != null && P[x + c, y - 1].Name.Split(' ')[2] != p.Name.Split(' ')[2] && P[x + (c * 2), y - 2].Image == null)
+                                    {
+                                        P[x + (c * 2), y - 2].Image = Properties.Resources.b;
+                                        P[x + (c * 2), y - 2].Name = (x + (c * 2)) + " " + (y - 2) + " b";
+                                        B2 = (x + (c * 2)) + " " + (y - 2);
+                                        k2 = (x + c) + " " + (y - 1) + " " + P[x + c, y - 1].Name.Split(' ')[2];
+                                        kontroll = 0;
+                                    }
+                                    else if (kontroll == 1 && P[x + c, y - 1].Image == null)
                                     {
                                         P[x + c, y - 1].Image = Properties.Resources.b;
-                                        P[x + c, y - 1].Name = (x + c) + "" + (y - 1) + "b";
-                                        B2 = (x + c) + "" + (y - 1);
+                                        P[x + c, y - 1].Name = (x + c) + " " + (y - 1) + " b";
+                                        B2 = (x + c) + " " + (y - 1);
                                     }
+                                }
+                                catch { }
                             }
                         }
                     };
                     board.Controls.Add(P[i, j]);
                 }
                 top += 60;
+            }
+        }
+        public void F()
+        {
+            if (B1 != "")
+            {
+                int x, y;
+                x = Convert.ToInt32(B1.Split(' ')[0]);
+                y = Convert.ToInt32(B1.Split(' ')[1]);
+                P[x, y].Image = null;
+            }
+            if (B2 != "")
+            {
+                int x, y;
+                x = Convert.ToInt32(B2.Split(' ')[0]);
+                y = Convert.ToInt32(B2.Split(' ')[1]);
+                P[x, y].Image = null;
             }
         }
     }
