@@ -18,7 +18,7 @@ namespace Demo6
         }
         int n;
         PictureBox[,] P;
-        string color = "v", k = "", k2 = "", B1 = "", B2 = "";
+        string värv = "v", p1 = "", p2 = "", variant1 = "", variant2 = "";
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
@@ -44,11 +44,11 @@ namespace Demo6
         {
             n = 8;
             P = new PictureBox[n, n];
-            int left = 2, top = 2, kontroll = 1;
+            int vasakult = 2, ülevalt = 2, kontroll = 1;
             Color[] colors = new Color[] { Color.Wheat, Color.Sienna };
             for (int i = 0; i < n; i++)
             {
-                left = 2;
+                vasakult = 2;
                 if (i % 2 == 0)
                 {
                     colors[0] = Color.Sienna;
@@ -63,9 +63,9 @@ namespace Demo6
                 {
                     P[i, j] = new PictureBox();
                     P[i, j].BackColor = colors[(j % 2 == 0) ? 1 : 0];
-                    P[i, j].Location = new Point(left, top);
+                    P[i, j].Location = new Point(vasakult, ülevalt);
                     P[i, j].Size = new Size(60, 60);
-                    left += 60;
+                    vasakult += 60;
                     P[i, j].Name = i + " " + j;
                     if (i < 3 && P[i, j].BackColor == Color.Sienna)
                     {
@@ -96,39 +96,39 @@ namespace Demo6
                         PictureBox p = sender3 as PictureBox;
                         if (p.Image != null)
                         {
-                            int c = -1, x, y;
-                            F();
+                            int t = -1, x, y;
+                            EemaldabVariandid();
                             if (p.Name.Split(' ')[2] == "b") 
                             {
-                                if (color == "v")
+                                if (värv == "v")
                                 {
-                                    color = "m";
+                                    värv = "m";
                                 }
                                 else
                                 {
-                                    color = "v";
+                                    värv = "v";
                                 }
-                                x = Convert.ToInt32(k.Split(' ')[0]);
-                                y = Convert.ToInt32(k.Split(' ')[1]);
-                                B1 = "";
-                                B2 = "";
-                                if(k.Split(' ')[2] == "m")
+                                x = Convert.ToInt32(p1.Split(' ')[0]);
+                                y = Convert.ToInt32(p1.Split(' ')[1]);
+                                variant1 = "";
+                                variant2 = "";
+                                if(p1.Split(' ')[2] == "m")
                                 {
                                     p.Image = Properties.Resources.m;
                                     p.Name = p.Name.Replace("b", "m");
                                 }
-                                else if (k.Split(' ')[2] == "v")
+                                else if (p1.Split(' ')[2] == "v")
                                 {
                                     p.Image = Properties.Resources.v;
                                     p.Name = p.Name.Replace("b", "v");
                                 }
                                 P[x, y].Image = null;
-                                if(k2 != ""&& kontroll == 0 )
+                                if(p2 != "" && kontroll == 0 )
                                 {
-                                    x = Convert.ToInt32(k2.Split(' ')[0]);
-                                    y = Convert.ToInt32(k2.Split(' ')[1]);
+                                    x = Convert.ToInt32(p2.Split(' ')[0]);
+                                    y = Convert.ToInt32(p2.Split(' ')[1]);
                                     P[x, y].Image = null;
-                                    if(k2.Split(' ')[2] == "m")
+                                    if(p2.Split(' ')[2] == "m")
                                     {
                                         must++;
                                     }
@@ -138,52 +138,52 @@ namespace Demo6
                                     }
                                     label17.Text = valge + "";
                                     label18.Text = must + "";
-                                    k2 = "";
+                                    p2 = "";
                                     kontroll = 1;
                                 }
                             }
-                            else if (p.Name.Split(' ')[2] == color)
+                            else if (p.Name.Split(' ')[2] == värv)
                             {
                                 x = Convert.ToInt32(p.Name.Split(' ')[0]);
                                 y = Convert.ToInt32(p.Name.Split(' ')[1]);
-                                k = p.Name;
+                                p1 = p.Name;
                                 if (p.Name.Split(' ')[2] == "m")
                                 {
-                                    c = 1;
+                                    t = 1;
                                 }
                                 try
                                 {
-                                   if (P[x + c, y + 1].Image != null && P[x + c, y + 1].Name.Split(' ')[2] != p.Name.Split(' ')[2] && P[x + (c * 2), y + 2].Image == null)
+                                   if (P[x + t, y + 1].Image != null && P[x + t, y + 1].Name.Split(' ')[2] != p.Name.Split(' ')[2] && P[x + (t * 2), y + 2].Image == null)
                                     {
-                                        P[x + (c * 2), y + 2].Image = Properties.Resources.b;
-                                        P[x + (c * 2), y + 2].Name = (x + (c * 2)) + " " + (y + 2) + " b";
-                                        B1 = (x + (c * 2)) + " " + (y + 2);
-                                        k2 = (x + c) + " " + (y + 1) + " " + P[x + c, y + 1].Name.Split(' ')[2];
+                                        P[x + (t * 2), y + 2].Image = Properties.Resources.b;
+                                        P[x + (t * 2), y + 2].Name = (x + (t * 2)) + " " + (y + 2) + " b";
+                                        variant1 = (x + (t * 2)) + " " + (y + 2);
+                                        p2 = (x + t) + " " + (y + 1) + " " + P[x + t, y + 1].Name.Split(' ')[2];
                                         kontroll = 0;
                                     }
-                                    else if (kontroll == 1 && P[x + c, y + 1].Image == null)
+                                    else if (kontroll == 1 && P[x + t, y + 1].Image == null)
                                     {
-                                        P[x + c, y + 1].Image = Properties.Resources.b;
-                                        P[x + c, y + 1].Name = (x + c) + " " + (y + 1) + " b";
-                                        B1 = (x + c) + " " + (y + 1);
+                                        P[x + t, y + 1].Image = Properties.Resources.b;
+                                        P[x + t, y + 1].Name = (x + t) + " " + (y + 1) + " b";
+                                        variant1 = (x + t) + " " + (y + 1);
                                     }
                                 }
                                 catch { }
                                 try
                                 {
-                                    if (P[x + c, y - 1].Image != null && P[x + c, y - 1].Name.Split(' ')[2] != p.Name.Split(' ')[2] && P[x + (c * 2), y - 2].Image == null)
+                                    if (P[x + t, y - 1].Image != null && P[x + t, y - 1].Name.Split(' ')[2] != p.Name.Split(' ')[2] && P[x + (t * 2), y - 2].Image == null)
                                     {
-                                        P[x + (c * 2), y - 2].Image = Properties.Resources.b;
-                                        P[x + (c * 2), y - 2].Name = (x + (c * 2)) + " " + (y - 2) + " b";
-                                        B2 = (x + (c * 2)) + " " + (y - 2);
-                                        k2 = (x + c) + " " + (y - 1) + " " + P[x + c, y - 1].Name.Split(' ')[2];
+                                        P[x + (t * 2), y - 2].Image = Properties.Resources.b;
+                                        P[x + (t * 2), y - 2].Name = (x + (t * 2)) + " " + (y - 2) + " b";
+                                        variant2 = (x + (t * 2)) + " " + (y - 2);
+                                        p2 = (x + t) + " " + (y - 1) + " " + P[x + t, y - 1].Name.Split(' ')[2];
                                         kontroll = 0;
                                     }
-                                    else if (kontroll == 1 && P[x + c, y - 1].Image == null)
+                                    else if (kontroll == 1 && P[x + t, y - 1].Image == null)
                                     {
-                                        P[x + c, y - 1].Image = Properties.Resources.b;
-                                        P[x + c, y - 1].Name = (x + c) + " " + (y - 1) + " b";
-                                        B2 = (x + c) + " " + (y - 1);
+                                        P[x + t, y - 1].Image = Properties.Resources.b;
+                                        P[x + t, y - 1].Name = (x + t) + " " + (y - 1) + " b";
+                                        variant2 = (x + t) + " " + (y - 1);
                                     }
                                 }
                                 catch { }
@@ -192,23 +192,23 @@ namespace Demo6
                     };
                     board.Controls.Add(P[i, j]);
                 }
-                top += 60;
+                ülevalt += 60;
             }
         }
-        public void F()
+        public void EemaldabVariandid()
         {
-            if (B1 != "")
+            if (variant1 != "")
             {
                 int x, y;
-                x = Convert.ToInt32(B1.Split(' ')[0]);
-                y = Convert.ToInt32(B1.Split(' ')[1]);
+                x = Convert.ToInt32(variant1.Split(' ')[0]);
+                y = Convert.ToInt32(variant1.Split(' ')[1]);
                 P[x, y].Image = null;
             }
-            if (B2 != "")
+            if (variant2 != "")
             {
                 int x, y;
-                x = Convert.ToInt32(B2.Split(' ')[0]);
-                y = Convert.ToInt32(B2.Split(' ')[1]);
+                x = Convert.ToInt32(variant2.Split(' ')[0]);
+                y = Convert.ToInt32(variant2.Split(' ')[1]);
                 P[x, y].Image = null;
             }
         }
