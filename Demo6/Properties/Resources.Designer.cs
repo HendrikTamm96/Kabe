@@ -83,9 +83,29 @@ namespace Demo6.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap mtamm {
+            get {
+                object obj = ResourceManager.GetObject("mtamm", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap v {
             get {
                 object obj = ResourceManager.GetObject("v", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap vtamm {
+            get {
+                object obj = ResourceManager.GetObject("vtamm", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
